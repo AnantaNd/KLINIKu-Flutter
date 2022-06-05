@@ -52,7 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              _textField("NIK", "130641213512"),
               _textField("Nama", "Gohn Drong"),
               _textField("Alamat", "Dirumah orang"),
               _textField("No Handphone", "08123456789"),

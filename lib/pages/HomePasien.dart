@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class MenuPasien extends StatefulWidget {
 class _MenuPasienState extends State<MenuPasien> {
   int index = 0;
   final screens = [HomePage(), StatusPage(), LocationPage()];
-  final user = FirebaseAuth.instance.currentUser;
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +37,13 @@ class _MenuPasienState extends State<MenuPasien> {
 
   AppBar _buildAppBar() {
     return AppBar(
+      // titleSpacing: 0,
       automaticallyImplyLeading: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: Row(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
               onPressed: () {
