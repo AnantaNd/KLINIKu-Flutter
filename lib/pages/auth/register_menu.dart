@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kliniku/components/widgets/reuse.dart';
+import 'package:kliniku/components/utils/reuse_widgets.dart';
 import 'package:kliniku/const.dart';
 
 class RegisterMenu extends StatefulWidget {
@@ -45,7 +45,7 @@ class _RegisterMenuState extends State<RegisterMenu> {
             password: _passController.text.trim());
       }
       // Tambah Detail User
-      adduserDetails(_nameController.text.trim(), _addrController.text.trim(),
+      createUser(_nameController.text.trim(), _addrController.text.trim(),
           _noHpController.text.trim(), _emailController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e.code);
@@ -64,7 +64,7 @@ class _RegisterMenuState extends State<RegisterMenu> {
     }
   }
 
-  Future adduserDetails(
+  Future createUser(
       String name, String addr, String phoneNum, String email) async {
     await FirebaseFirestore.instance
         .collection('users')
