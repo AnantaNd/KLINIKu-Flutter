@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kliniku/const.dart';
+import 'package:kliniku/pages/auth/model/user_model.dart';
 import 'package:kliniku/pages/components/home_menu.dart';
 import 'package:kliniku/pages/components/location_menu.dart';
 import 'package:kliniku/pages/components/profile_page.dart';
@@ -18,7 +19,31 @@ class MenuPasien extends StatefulWidget {
 class _MenuPasienState extends State<MenuPasien> {
   int index = 0;
   final screens = [HomePage(), StatusPage(), LocationPage()];
-  final user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
+  final db = FirebaseFirestore.instance;
+  UserModel authUser = UserModel();
+  UserModel idUser = UserModel();
+  String userId = '';
+
+  void getData() async {
+    await db
+        .collection("users")
+        .where('email', isEqualTo: user!.email)
+        .get()
+        .then((event) {
+      for (var doc in event.docs) {
+        print("${doc.id} => ${doc.data()}");
+        this.authUser = UserModel.fromMap(doc.data());
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,31 +66,27 @@ class _MenuPasienState extends State<MenuPasien> {
       automaticallyImplyLeading: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: Row(
-        children: <Widget>[
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
-              },
-              icon: Icon(
-                Icons.account_circle_outlined,
-                color: Colors.black,
-              )),
-          Text(
-            "Hello pasien!",
-            style: TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
-          ),
-          IconButton(
-            padding: const EdgeInsets.only(left: 178),
+      title: Text("Halo ${authUser.fName}",
+          style: TextStyle(color: Colors.black, fontFamily: 'Montserrat')),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(userAuth: this.authUser)));
+        },
+        icon: Icon(
+          Icons.account_circle_outlined,
+          color: Colors.black,
+        ),
+      ),
+      actions: [
+        IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
-            icon: Icon(Icons.logout),
-            color: Colors.black,
-          )
-        ],
-      ),
+            icon: Icon(Icons.logout_outlined, color: Colors.black))
+      ],
     );
   }
 
