@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kliniku/components/widgets/reuse.dart';
+import 'package:kliniku/components/utils/reuse_widgets.dart';
 import 'package:kliniku/const.dart';
 import 'package:kliniku/pages/auth/forgotPass_menu.dart';
 

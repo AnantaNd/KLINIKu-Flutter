@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kliniku/components/widgets/reuse.dart';
+import 'package:kliniku/components/utils/reuse_widgets.dart';
 import 'package:kliniku/const.dart';
 
 class RegisterMenu extends StatefulWidget {
@@ -17,7 +17,8 @@ class _RegisterMenuState extends State<RegisterMenu> {
   final _formKey = GlobalKey<FormState>();
 
   // Controller
-  final _nameController = new TextEditingController();
+  final _firstNameController = new TextEditingController();
+  final _secondNameController = new TextEditingController();
   final _addrController = new TextEditingController();
   final _noHpController = new TextEditingController();
   final _emailController = new TextEditingController();
@@ -26,7 +27,8 @@ class _RegisterMenuState extends State<RegisterMenu> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _secondNameController.dispose();
     _addrController.dispose();
     _noHpController.dispose();
     _emailController.dispose();
@@ -45,8 +47,12 @@ class _RegisterMenuState extends State<RegisterMenu> {
             password: _passController.text.trim());
       }
       // Tambah Detail User
-      adduserDetails(_nameController.text.trim(), _addrController.text.trim(),
-          _noHpController.text.trim(), _emailController.text.trim());
+      createUser(
+          _firstNameController.text.trim(),
+          _secondNameController.text.trim(),
+          _addrController.text.trim(),
+          _noHpController.text.trim(),
+          _emailController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e.code);
       showDialog(
@@ -64,11 +70,15 @@ class _RegisterMenuState extends State<RegisterMenu> {
     }
   }
 
-  Future adduserDetails(
-      String name, String addr, String phoneNum, String email) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .add({'nama': name, 'alamat': addr, 'noHp': phoneNum, 'email': email});
+  Future createUser(String fname, String lname, String addr, String phoneNum,
+      String email) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'namaDepan': fname,
+      'namaBelakang': lname,
+      'alamat': addr,
+      'noHp': phoneNum,
+      'email': email
+    });
   }
 
   bool passwordConfirmed() {
@@ -155,8 +165,11 @@ class _RegisterMenuState extends State<RegisterMenu> {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 30),
-                    rrTextFF(
-                        "Nama", _nameController, Icons.person_outline, false),
+                    rrTextFF("Nama Depan", _firstNameController,
+                        Icons.person_outline, false),
+                    SizedBox(height: 20),
+                    rrTextFF("Nama Belakang", _secondNameController,
+                        Icons.person_outline, false),
                     SizedBox(height: 20),
                     rrTextFF(
                         "Alamat", _addrController, Icons.home_outlined, false),
