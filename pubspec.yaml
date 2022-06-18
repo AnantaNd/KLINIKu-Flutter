@@ -18,6 +18,8 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   # ResponsiveSizer
   sizer: ^2.0.15
+  flutter_map: ^1.0.0
+  latlong: ^0.6.1
 
 dev_dependencies:
   flutter_test:
