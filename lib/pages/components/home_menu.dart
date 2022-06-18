@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kliniku/pages/DetailDokter.dart';
 import 'package:kliniku/pages/ListDokter/DokterUmum.dart';
 import 'package:kliniku/pages/components/model/categories_model.dart';
 import 'package:kliniku/pages/components/model/jadwal_model.dart';
@@ -75,6 +74,7 @@ Padding kategoriKlinik() {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ListDokter()),
+                            // LOGIKANYA => nanti container[index].listDokter yang nanti bakal diarahin sesuai index
                           ),
                           child: Column(
                             children: [
@@ -119,10 +119,11 @@ Container jadwalDokter() {
                     color: primaryColor,
                   ),
                   child: InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DetailDokter()),
-                    ),
+                    onTap: () {},
+                    // => Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => DetailDokter()),
+                    // ),
                     child: Stack(
                       children: <Widget>[
                         Positioned(

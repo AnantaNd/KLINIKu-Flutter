@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kliniku/const.dart';
 
@@ -97,5 +98,44 @@ AlertDialog alertBox(BuildContext context, String errorText) {
       TextButton(
           onPressed: () => Navigator.of(context).pop(), child: Text("OK"))
     ],
+  );
+}
+
+Future makeAppointment() async {
+  try {
+    await FirebaseFirestore.instance.collection('appointments').add({
+      'namaDepan': '',
+      'namaBelakang': '',
+      'alamat': '',
+      'noHp': '',
+      'email': '',
+      'tanggal': '',
+      'waktu': '',
+      'keterangan': '',
+    });
+  } on FirebaseException catch (e) {
+    print(e.code);
+    print(e.message);
+  }
+}
+
+AlertDialog confirmBox(BuildContext context) {
+  Widget cancelButton = TextButton(
+    child: Text("CANCEL"),
+    onPressed: () => Navigator.of(context).pop(),
+  );
+  Widget confirmButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {},
+  );
+
+  return AlertDialog(
+    title: Text("KONFIRMASI",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Nunito',
+            color: Colors.red)),
+    content: Text("Anda yakin?", style: TextStyle(fontFamily: 'Nunito')),
+    actions: [cancelButton, confirmButton],
   );
 }

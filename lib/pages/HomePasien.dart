@@ -22,7 +22,6 @@ class _MenuPasienState extends State<MenuPasien> {
   User? user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
   UserModel authUser = UserModel();
-  UserModel idUser = UserModel();
   String userId = '';
 
   void getData() async {
@@ -34,7 +33,6 @@ class _MenuPasienState extends State<MenuPasien> {
       for (var doc in event.docs) {
         print("${doc.id} => ${doc.data()}");
         this.authUser = UserModel.fromMap(doc.data());
-        setState(() {});
       }
     });
   }

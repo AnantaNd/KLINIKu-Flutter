@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:kliniku/components/utils/reuse_widgets.dart';
 import 'package:kliniku/const.dart';
+import 'package:kliniku/pages/ListDokter/model/DokterModel.dart';
 
-class DetailDokter extends StatefulWidget {
-  final String documentID;
-
-  DetailDokter({required this.documentID});
+class DokterDetail extends StatefulWidget {
+  final DokterModel dokterMd;
+  const DokterDetail({Key? key, required this.dokterMd}) : super(key: key);
 
   @override
-  State<DetailDokter> createState() => _DetailDokterState();
+  State<DokterDetail> createState() => _DokterDetailState();
 }
 
-class _DetailDokterState extends State<DetailDokter> {
+class _DokterDetailState extends State<DokterDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +19,7 @@ class _DetailDokterState extends State<DetailDokter> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 430,
+            height: MediaQuery.of(context).size.height * 2 / 3,
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/doctor.jpg'),
@@ -35,6 +36,13 @@ class _DetailDokterState extends State<DetailDokter> {
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.2),
+                    offset: Offset(0, -4),
+                    blurRadius: 8,
+                  )
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +57,7 @@ class _DetailDokterState extends State<DetailDokter> {
                       children: [
                         Expanded(
                           child: Text(
-                            "Drg. Amanda Jones",
+                            "${widget.dokterMd.nama}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
@@ -108,7 +116,7 @@ class _DetailDokterState extends State<DetailDokter> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        "Spesialis Gigi",
+                        "Spesialis ${widget.dokterMd.spesialis}",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
@@ -125,27 +133,9 @@ class _DetailDokterState extends State<DetailDokter> {
                     ),
                     child: Row(
                       children: [
-                        Text(
-                          "IDR 250.000,00-",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 30,
-                      right: 30,
-                    ),
-                    child: Row(
-                      children: [
                         Flexible(
                           child: Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            "${widget.dokterMd.deskripsi}",
                             textAlign: TextAlign.justify,
                             style: TextStyle(
                               fontSize: 14,
@@ -157,10 +147,13 @@ class _DetailDokterState extends State<DetailDokter> {
                     ),
                   ),
                   Spacer(),
+                  Divider(
+                    thickness: 2,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: const EdgeInsets.symmetric(
-                      vertical: 20,
+                      vertical: 10,
                       horizontal: 30,
                     ),
                     decoration: BoxDecoration(
@@ -177,9 +170,17 @@ class _DetailDokterState extends State<DetailDokter> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  AlertDialog alert = confirmBox(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return alert;
+                                    },
+                                  );
+                                },
                                 child: Text(
-                                  'buat janji'.toUpperCase(),
+                                  'buat janji'.toUpperCase(), // Buat Janji
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -187,8 +188,7 @@ class _DetailDokterState extends State<DetailDokter> {
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(12), // <-- Radius
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
                               ),
