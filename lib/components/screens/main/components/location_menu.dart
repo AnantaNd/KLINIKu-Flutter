@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:kliniku/const.dart';
-import "package:latlong2/latlong.dart";
-import 'package:url_launcher/url_launcher.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({Key? key}) : super(key: key);
@@ -11,92 +8,14 @@ class LocationPage extends StatefulWidget {
   State<LocationPage> createState() => _LocationPageState();
 }
 
-const latitude = -6.9775495;
-const longitude = 107.6299839;
-
-Column listModalButtonSheet() {
-  return Column(
-    children: [
-      SizedBox(height: 20),
-      ListTile(
-        leading: Icon(Icons.map_rounded),
-        title: Text("Bandung"),
-        subtitle: Text("Jl. Telekomunikasi No.1, Citeureup, Kec. Dayeuhkolot"),
-      ),
-      ListTile(
-        leading: Icon(Icons.call_rounded),
-        title: Text("021-8989898"),
-        onTap: () => launch("tel://021-8989898"),
-      ),
-      ListTile(
-        leading: Icon(Icons.email_rounded),
-        title: Text("kliniku@gmail.com"),
-        onTap: () => launch("https://mail.google.com/mail/u/0/#inbox"),
-      ),
-    ],
-  );
-}
-
 class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
-    void _onButonPress() {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: Color(0xFF737373),
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Container(
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: listModalButtonSheet(),
-            ),
-          );
-        },
-      );
-    }
-
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(latitude, longitude),
-        zoom: 15.0,
+    return Scaffold(
+      backgroundColor: secondaryColor,
+      body: Center(
+        child: Text("Location"),
       ),
-      layers: [
-        TileLayerOptions(
-          urlTemplate:
-              "https://api.mapbox.com/styles/v1/anantand/cl4dkq6jz000315s2r98vukpl/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW5hbnRhbmQiLCJhIjoiY2w0N3c5cXVyMGJ5dTNkcDhqOWJoeHR5ciJ9.WgGznLo-f-ISwe9lFVsoWg",
-          additionalOptions: {
-            'accessToken':
-                'pk.eyJ1IjoiYW5hbnRhbmQiLCJhIjoiY2w0N3c5cXVyMGJ5dTNkcDhqOWJoeHR5ciJ9.WgGznLo-f-ISwe9lFVsoWg',
-            'id': 'mapbox.country-boundaries-v1'
-          },
-        ),
-        MarkerLayerOptions(
-          markers: [
-            Marker(
-              width: 80.0,
-              height: 80.0,
-              point: LatLng(latitude, longitude), //mark klinik telkom
-              builder: (ctx) => Container(
-                child: IconButton(
-                  icon: Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                    size: 40,
-                  ),
-                  onPressed: () => _onButonPress(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
