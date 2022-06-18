@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tubes.kliniku">
-    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="kliniku"
         android:name="${applicationName}"

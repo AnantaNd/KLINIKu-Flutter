@@ -18,10 +18,6 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   # ResponsiveSizer
   sizer: ^2.0.15
-  flutter_map: ^1.0.0
-  latlong: ^0.6.1
-  url_launcher: ^6.1.3
-  open_mail_app: ^0.4.5
 
 dev_dependencies:
   flutter_test:
