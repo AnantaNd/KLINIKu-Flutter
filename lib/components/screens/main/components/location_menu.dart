@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:kliniku/const.dart';
 import "package:latlong2/latlong.dart";
+import 'package:url_launcher/url_launcher.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({Key? key}) : super(key: key);
@@ -12,9 +14,54 @@ class LocationPage extends StatefulWidget {
 const latitude = -6.9775495;
 const longitude = 107.6299839;
 
+Column listModalButtonSheet() {
+  return Column(
+    children: [
+      SizedBox(height: 20),
+      ListTile(
+        leading: Icon(Icons.map_rounded),
+        title: Text("Bandung"),
+        subtitle: Text("Jl. Telekomunikasi No.1, Citeureup, Kec. Dayeuhkolot"),
+      ),
+      ListTile(
+        leading: Icon(Icons.call_rounded),
+        title: Text("021-8989898"),
+        onTap: () => launch("tel://021-8989898"),
+      ),
+      ListTile(
+        leading: Icon(Icons.email_rounded),
+        title: Text("kliniku@gmail.com"),
+        onTap: () => launch("https://mail.google.com/mail/u/0/#inbox"),
+      ),
+    ],
+  );
+}
+
 class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
+    void _onButonPress() {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Container(
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: listModalButtonSheet(),
+            ),
+          );
+        },
+      );
+    }
+
     return FlutterMap(
       options: MapOptions(
         center: LatLng(latitude, longitude),
@@ -37,10 +84,13 @@ class _LocationPageState extends State<LocationPage> {
               height: 80.0,
               point: LatLng(latitude, longitude), //mark klinik telkom
               builder: (ctx) => Container(
-                child: Icon(
-                  Icons.location_on,
-                  size: 40.0,
-                  color: Colors.red,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                    size: 40,
+                  ),
+                  onPressed: () => _onButonPress(),
                 ),
               ),
             ),
