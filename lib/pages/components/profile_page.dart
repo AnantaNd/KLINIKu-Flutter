@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
             'firstName': fname,
             'lastName': lname,
             'address': addr,
-            'phoneNum': phoneNum,
+            'noHp': phoneNum,
           });
           print(doc.id);
         }
