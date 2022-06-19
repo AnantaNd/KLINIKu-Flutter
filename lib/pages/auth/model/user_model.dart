@@ -20,8 +20,8 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'nameDepan': fName,
-      'nameBelakang': lName,
+      'firstName': fName,
+      'lastName': lName,
       'alamat': alamat,
       'noHp': noHp
     };

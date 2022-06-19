@@ -27,12 +27,16 @@ class _ProfilePageState extends State<ProfilePage> {
   Future updateUser(String fname, String lname, String addr, String phoneNum,
       String email) async {
     try {
-      db.doc('64NZ886VjB5WNJhhMDOJ').update({
-        'namaDepan': fname,
-        'namaBelakang': lname,
-        'alamat': addr,
-        'noHp': phoneNum,
-        'email': email
+      db.where('email', isEqualTo: auth.email).get().then((event) {
+        for (var doc in event.docs) {
+          db.doc(doc.id).update({
+            'firstName': fname,
+            'lastName': lname,
+            'address': addr,
+            'phoneNum': phoneNum,
+          });
+          print(doc.id);
+        }
       });
       print("user with uid ${auth.uid} updated");
     } on FirebaseAuthException catch (e) {

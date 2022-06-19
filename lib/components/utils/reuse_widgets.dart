@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kliniku/const.dart';
+import 'package:kliniku/pages/ListDokter/model/DokterModel.dart';
+import 'package:kliniku/pages/auth/model/user_model.dart';
 
 Image imagePath(String path) {
   Image lokasi = Image.asset('assets/images/${path}');
@@ -101,24 +103,6 @@ AlertDialog alertBox(BuildContext context, String errorText) {
   );
 }
 
-Future makeAppointment() async {
-  try {
-    await FirebaseFirestore.instance.collection('appointments').add({
-      'namaDepan': '',
-      'namaBelakang': '',
-      'alamat': '',
-      'noHp': '',
-      'email': '',
-      'tanggal': '',
-      'waktu': '',
-      'keterangan': '',
-    });
-  } on FirebaseException catch (e) {
-    print(e.code);
-    print(e.message);
-  }
-}
-
 AlertDialog confirmBox(BuildContext context) {
   Widget cancelButton = TextButton(
     child: Text("CANCEL"),
@@ -126,7 +110,9 @@ AlertDialog confirmBox(BuildContext context) {
   );
   Widget confirmButton = TextButton(
     child: Text("OK"),
-    onPressed: () {},
+    onPressed: () {
+      print("OK");
+    },
   );
 
   return AlertDialog(
